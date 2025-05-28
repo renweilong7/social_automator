@@ -21,7 +21,7 @@ class AppSettings:
     # SOME_OTHER_API_KEY: str = os.getenv("SOME_OTHER_API_KEY")
 
     # Playwright Settings
-    PLAYWRIGHT_HEADLESS: bool = os.getenv("PLAYWRIGHT_HEADLESS", "True").lower() == "true"
+    PLAYWRIGHT_HEADLESS: bool = os.getenv("PLAYWRIGHT_HEADLESS", "False").lower() == "true"
     PLAYWRIGHT_TIMEOUT: int = int(os.getenv("PLAYWRIGHT_TIMEOUT", "30000")) # Default 30 seconds
     PLAYWRIGHT_SLOW_MO: int = int(os.getenv("PLAYWRIGHT_SLOW_MO", "50")) # Milliseconds, 0 for no slow mo
 

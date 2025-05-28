@@ -2,7 +2,7 @@
 # 定义 Account 类，包含用户名、密码（或token）、平台类型等。
 # 使用 Pydantic 可以方便地进行数据校验。
 
-from typing import Optional
+from typing import Optional, Dict, Any
 from pydantic import BaseModel, SecretStr
 
 class Account(BaseModel):
@@ -14,6 +14,15 @@ class Account(BaseModel):
 
     class Config:
         # Pydantic config if needed, e.g., for ORM mode or custom validation
+        pass
+
+class BrowserAccount(BaseModel):
+    """Represents a browser profile with its own user data directory."""
+    username: str  # Name for this browser profile/configuration
+    user_data_dir: str  # Path to the user data directory for this browser profile
+    config: Dict[str, Any] = {}  # Optional extra configuration
+
+    class Config:
         pass
 
 if __name__ == '__main__':
@@ -44,6 +53,22 @@ if __name__ == '__main__':
         # This should raise a validation error
         # account_invalid = Account(**account_data_invalid)
         # print(account_invalid)
+
+        # Example Usage for BrowserAccount
+        browser_account_data = {
+            "username": "main_browser_profile",
+            "user_data_dir": "data/browser_profiles/main_profile",
+            "config": {"theme": "dark", "extensions_enabled": True}
+        }
+        browser_acc1 = BrowserAccount(**browser_account_data)
+        print(f"Browser Account 1: {browser_acc1.model_dump()}")
+
+        browser_account_data_minimal = {
+            "username": "secondary_profile",
+            "user_data_dir": "data/browser_profiles/secondary_profile",
+        }
+        browser_acc2 = BrowserAccount(**browser_account_data_minimal)
+        print(f"Browser Account 2 (minimal): {browser_acc2.model_dump()}")
 
     except Exception as e:
         print(f"Error during Account model testing: {e}")
